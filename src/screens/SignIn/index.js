@@ -13,7 +13,8 @@ import SignInput from '../../components/SignInput'
 import {Image} from 'react-native'
 import EmailIcon from '../../assets/mail.svg'
 import LockIcon from '../../assets/lock.svg'
-
+import Api from '../../Api'
+import AsyncStorage from '@react-native-community/async-storage'
 
 export default () => {
 
@@ -21,15 +22,44 @@ export default () => {
     const [pass, setPassField] = useState('')
     const navigation = useNavigation();
 
+    const onSignButtonClick = async () => {
+
+        let regex = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/ 
+        
+        if (email.length && pass.length && regex.test(email)) {
+
+            let response = await Api.signIn(email, pass)
+            console.log(response)
+            
+            if (response.token) {
+
+                await AsyncStorage.setItem('token', response.token)
+                navigation.reset({
+                    routes:[{name:'Main'}]
+                })
+
+            } else {
+
+                setEmailField('')
+                setPassField('')
+                alert('Email e/ou senha inválidos')
+                
+            }
+
+        } else {
+
+            setEmailField('')
+            setPassField('')
+            alert('Para efetuar login, insira um email e senha válidos')
+        }
+        
+    }
+
     const onMessageButtonClick = () => {
 
         navigation.reset({
             routes: [{name:'SignUp'}]
         })
-    }
-
-    const onSignButtonClick = () => {
-        
     }
 
     return (

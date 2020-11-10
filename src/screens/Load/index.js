@@ -3,6 +3,7 @@ import {Image} from 'react-native'
 import {LoadingIcon, Container} from './styles'
 import AsyncStorage from '@react-native-community/async-storage'
 import { useNavigation } from '@react-navigation/native'
+import Api from '../../Api'
 
 export default () => {
     
@@ -12,9 +13,22 @@ export default () => {
         
         const checkToken = async () => {
             const token = await AsyncStorage.getItem('token')
+
             if (token) {
 
-                // valida o token
+                let response = await Api.tokenValidate(token)
+
+                if (response.token) {
+
+                    await AsyncStorage.setItem('token', response.token)
+                    navigation.reset({
+                        routes:[{name:'Main'}]
+                    })
+
+                } else {
+
+                    navigation.navigate('SignIn')
+                }
 
             } else {
 
