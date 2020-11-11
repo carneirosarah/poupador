@@ -34,7 +34,9 @@ export default () => {
 
     const onSignButtonClick = async () => {
         
-        if (name.length && email.length && pass.length) {
+        let regex = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/
+        
+        if (name.length && pass.length && regex.test(email)) {
 
             let response = await Api.signUp(name, email, pass)
             console.log(response)

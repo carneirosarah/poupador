@@ -1,10 +1,7 @@
 const API = 'http://10.0.2.2:3000';
 
 export default {
-
-    checkToken: async () => {
-
-    },
+    
     signIn: async (email, pass) => {
 
         const req = await fetch(`${API}/users/signin`, {
@@ -16,9 +13,9 @@ export default {
             body: JSON.stringify({email, pass})
         })
 
-        const res = await req.json()
-        return res
+        return await req.json()
     },
+
     signUp: async(name, email, pass) => {
 
         const req = await fetch(`${API}/users/signup`, {
@@ -32,6 +29,7 @@ export default {
 
         return await req.json()
     },
+
     tokenValidate: async (token) => {
 
         const req = await fetch(`${API}/users/validate`, {
@@ -41,6 +39,33 @@ export default {
                 'Content-Type': 'application/json'
             },
             body: JSON.stringify({token})
+        })
+
+        return await req.json()
+    },
+
+    changePass: async (id, pass, newpass) => {
+        
+        const req = await fetch(`${API}/users/updatepass`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id, pass, newpass})
+        })
+
+        return await req.json()
+    },
+
+    deleteUser: async (id) => {
+
+        const req = await fetch(`${API}/users/` + id, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
         })
 
         return await req.json()
