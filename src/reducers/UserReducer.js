@@ -1,5 +1,6 @@
 export const initialState = {
-    avatar: ''
+    avatar: '',
+    transactions: []
 }
 
 export const UserReducer = (state, action) => {

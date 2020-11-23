@@ -58,6 +58,8 @@ export default ({ show, setShow, userId}) => {
 
                     alert('Senha atualizada com sucesso')
                     setShow(false)
+                    setPassField('')
+                    setNewPassField('')
 
                 } else {
 

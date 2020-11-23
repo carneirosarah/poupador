@@ -2,21 +2,21 @@ import React from 'react'
 import styled from 'styled-components/native'
 
 export const Container = styled.SafeAreaView`
-    background-color:#FFFFFF;
+    background-color:#ffcdd2;
     flex: 1;
 `
 export const Scroller = styled.ScrollView `
     flex: 1;
 `
 export const PageHeader = styled.View`
-    background-color:#ffcdd2;
+    background-color:#cb9ca1;
     width: 100%;
     height: 200px;
     justify-content: center;
     align-items: center;
 `
 export const PageBody = styled.View`
-    background-color:#FFFFFF;
+    background-color:#ffcdd2;
     border-top-left-radius: 50px;
     border-top-right-radius: 50px;
     margin-top: -50px;
@@ -44,7 +44,7 @@ export const UserActionsArea = styled.View`
 
 export const ActionButton = styled.TouchableOpacity`
     margin-top: 30px;
-    background-color: #cb9ca1;
+    background-color: #ffebee;
     border-radius: 10px;
     padding: 20px 20px;
     justify-content: center;
@@ -54,6 +54,6 @@ export const ActionButton = styled.TouchableOpacity`
 export const ActionButtonText = styled.Text`
     font-size: 16px;
     font-weight: bold;
-    color: #FFFFFF;
+    color: #565353;
 `
 

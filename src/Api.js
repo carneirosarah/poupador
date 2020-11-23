@@ -69,5 +69,19 @@ export default {
         })
 
         return await req.json()
-    }
+    },
+
+    postTransaction: async (type, date, category, description, value, id_user) => {
+
+        const req = await fetch(`${API}/transaction`, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({type, date, category, description, value, id_user})
+        })
+
+        return await req.json()
+    },
 }
