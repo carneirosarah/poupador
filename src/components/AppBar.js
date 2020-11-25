@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components/native'
 
 import WalletIcon from '../assets/wallet.svg'
-import PlusIcon from '../assets/plus.svg'
+import DolarIcon from '../assets/dolar.svg'
 import ProfileIcon from '../assets/user.svg'
 
 const TabArea = styled.View`
@@ -22,7 +22,7 @@ const TabItemCenter = styled.TouchableOpacity`
     height: 70px;
     justify-content: center;
     align-items: center;
-    background-color: #FFFFFF;
+    background-color: #565353;
     border-radius: 35px;
     border: 3px solid #cb9ca1;
     margin-top: -20px;
@@ -39,7 +39,7 @@ export default ({state, navigation}) => {
                 <WalletIcon style={{opacity: state.index===0 ? 1 : 0.5}} width="40" height="40" fill="#FFFFFF"/>
             </TabItem>
             <TabItemCenter onPress={() => router('Transactions')}>
-                <PlusIcon width="70" height="70" fill="#008f3e"/>
+                <DolarIcon width="70" height="70" fill="#fff6a8"/>
             </TabItemCenter>
             <TabItem onPress={() => router('Profile')}>
                 <ProfileIcon style={{opacity: state.index===2 ? 1 : 0.5}} width="40" height="40" fill="#FFFFFF"/>

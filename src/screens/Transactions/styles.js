@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
 `
 export const PageHeader = styled.View`
     width: 100%;
-    height: 200px;
+    height: 150px;
     justify-content: center;
     align-items: center;
 `
@@ -21,7 +21,7 @@ export const InputArea = styled.View`
     height: 60px;
     background-color: #ffebee;
     flex-direction: row;
-    border-radius: 30px;
+    border-radius: 10px;
     padding-left: 15px;
     align-items: center;
     margin-bottom: 15px;
@@ -32,4 +32,21 @@ export const Input = styled.TextInput`
     font-size: 16px;
     color: #565353;
     margin-left: 10px;
+`
+
+export const ActionButton = styled.TouchableOpacity`
+    flex-direction: row;
+    margin-top: 30px;
+    width: 100%;
+    background-color: #ffebee;
+    border-radius: 10px;
+    padding: 20px 20px;
+    justify-content: center;
+    align-items: center;
+`
+
+export const ActionButtonText = styled.Text`
+    font-size: 16px;
+    font-weight: bold;
+    color: #565353;
 `
