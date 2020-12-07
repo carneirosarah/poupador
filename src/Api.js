@@ -84,4 +84,83 @@ export default {
 
         return await req.json()
     },
+
+    getTransactions: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getTotalReceived: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/R/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getTotalSpent: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/D/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getBalance: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/balance/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    updateTransaction: async (id_transaction, type, date, category, description, value) => {
+        
+        const req = await fetch(`${API}/transaction/update`, {
+            method: 'POST',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({id_transaction, type, date, category, description, value})
+        })
+
+        return await req.json()
+    },
+
+    deleteUser: async (id) => {
+
+        const req = await fetch(`${API}/transaction/` + id, {
+            method: 'DELETE',
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
 }
