@@ -7,7 +7,7 @@ export const Container = styled.SafeAreaView`
 `
 export const PageHeader = styled.View`
     width: 100%;
-    height: 150px;
+    height: 100px;
     justify-content: center;
     align-items: center;
 `
@@ -36,7 +36,6 @@ export const Input = styled.TextInput`
 
 export const ActionButton = styled.TouchableOpacity`
     flex-direction: row;
-    margin-top: 30px;
     width: 100%;
     background-color: #ffebee;
     border-radius: 10px;

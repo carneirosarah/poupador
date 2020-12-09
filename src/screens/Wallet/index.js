@@ -6,8 +6,10 @@ import {Container,
         HeaderReceived,
         HeaderBalance,
         HeaderSpent,
-        LoadingIcon
+        LoadingIcon,
+        ListArea
 } from './styles'
+import TransactionItem from '../../components/TransactionItem'
 import {Image} from 'react-native'
 import Api from '../../Api'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -18,7 +20,7 @@ export default () => {
 
     const [loading, setLoading] = useState(true)
     const [user, setUser] = useState({})
-    const [transactions, setTransaction] = useState([])
+    const [transactions, setTransactions] = useState([])
     const [received, setReceived] = useState('')
     const [balance, setBalance] = useState('')
     const [spent, setSpent] = useState('')
@@ -28,31 +30,61 @@ export default () => {
         const getUser = async () => {
             let token = await AsyncStorage.getItem('token')
             token = jwt(token)
+            console.log(token)
             setUser({
                 name: token.name,
                 email: token.email,
                 id: token.id
             })
+            
+            return token.id
         }
         const getTransactions = async () => {
+
             setLoading(true)
-            let res = await Api.getTransactions(user.id)
+
+            const id = await getUser()
+            
+            let res = await Api.getTransactions(id)
 
             if (res.error) {
                 alert("Erro: " + res.error)
             } else {
                 console.log(res)
-                setTransaction(res.transactions)
+                setTransactions(res.transactions)
+            }
+
+            res = await Api.getTotalSpent(id)
+            
+            if (res.error) {
+                alert("Erro: " + res.error)
+            } else {
+                console.log(res)
+                setSpent(res.transaction[0].valor_total_gasto)
+            }
+
+            res = await Api.getBalance(id)
+            
+            if (res.error) {
+                alert("Erro: " + res.error)
+            } else {
+                console.log(res)
+                setBalance(res.transaction[0].saldo)
+            }
+
+            res = await Api.getTotalReceived(id)
+            
+            if (res.error) {
+                alert("Erro: " + res.error)
+            } else {
+                console.log(res)
+                setReceived(res.transaction[0].valor_total_recebido)
             }
 
             setLoading(false)
         }
-
-        getUser()
         getTransactions()
-    })
-
-    
+    }, [])
 
     return (
         <Container>
@@ -69,8 +101,15 @@ export default () => {
                 {loading &&
                     <LoadingIcon size="large" color="#565353" />
                 }
-                
-            <Scroller></Scroller>
+            <Scroller>
+                <ListArea>
+                    {
+                        transactions.map( (transaction, k) => (
+                            <TransactionItem key={k} data={transaction}/>
+                        ))
+                    }
+                </ListArea>
+            </Scroller>
         </Container>
     )
 }

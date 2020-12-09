@@ -1,15 +1,17 @@
 import React from 'react'
 import styled from 'styled-components/native'
 
-export const Container = styled.SafeAreaView``
+export const Container = styled.SafeAreaView`
+    background-color:#ffcdd2;
+    flex: 1;
+`
 
 export const Scroller = styled.ScrollView`
     flex: 1;
-    padding: 20px;
 `
 
 export const Header = styled.View`
-    background-color:#cb9ca1;
+    background-color:#ffcdd2;;
     width: 100%;
     height: 200px;
     justify-content: center;
@@ -17,7 +19,7 @@ export const Header = styled.View`
 `
 
 export const HeaderTitle = styled.View`
-    width: 80%;
+    width: 90%;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
@@ -25,7 +27,7 @@ export const HeaderTitle = styled.View`
 `
 
 export const HeaderReceived = styled.Text`
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     color: #008f3e;
     padding: 5px;
@@ -39,9 +41,16 @@ export const HeaderBalance = styled.Text`
 `
 
 export const HeaderSpent = styled.Text`
-    font-size: 20px;
+    font-size: 22px;
     font-weight: bold;
     color: #d32f2f;
     padding: 5px;
 `
 export const LoadingIcon = styled.ActivityIndicator``
+
+export const ListArea = styled.View`
+    margin-top: 30px;
+    margin-bottom: 30px;
+    justify-content: center;
+    align-items: center;
+`
