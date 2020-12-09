@@ -151,7 +151,7 @@ export default {
         return await req.json()
     },
 
-    deleteUser: async (id) => {
+    deleteTransaction: async (id) => {
 
         const req = await fetch(`${API}/transaction/` + id, {
             method: 'DELETE',

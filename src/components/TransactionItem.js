@@ -1,7 +1,10 @@
 import React from 'react'
 import styled from 'styled-components/native'
+import Api from '../Api'
 import DeleteIcon from '../assets/delete.svg'
 import EditIcon from '../assets/edit.svg'
+
+
 const Card = styled.View`
     background-color:#ffebee;
     margin-bottom: 20px;
@@ -51,12 +54,41 @@ const TValue = styled.Text`
     padding: 5px;
 `
 
-export default ({data}) => {
+export default ({data, onRefresh}) => {
+    
     function dateFomatter(date) {
 
         const aux = date.split('T')[0].split('-')
         return aux[2] + '.' + aux[1] + '.' + aux[0]
     }
+
+    onDelete = async (id) => {
+
+        try {
+
+            let res = await Api.deleteTransaction(id)
+            console.log(res)
+            if (res.status === 200) {
+
+                alert('Transação excluida com sucesso')
+                onRefresh()
+
+            } else {
+
+                alert('Não foi possível excluir')
+            }
+
+        } catch(erro) {
+
+            alert('Não foi possível excluir')
+            console.log(erro)
+        }
+    }
+
+    function onUpdate(id) {
+
+    }
+
     return(
         <Card>
             <LeftColumn>
@@ -65,10 +97,10 @@ export default ({data}) => {
             </LeftColumn>
             <RightColumn>
                 <ActionArea>
-                    <DeleteArea>
+                    <DeleteArea  onPress={() => onDelete(data.id_transaction)}>
                         <DeleteIcon width="20" height="20" fill="#565353"/>
                     </DeleteArea>
-                    <EditArea>
+                    <EditArea  onPress={() => onUpdate(data.id_transaction)}>
                         <EditIcon width="20" height="20" fill="#565353"/>
                     </EditArea>
                 </ActionArea>
