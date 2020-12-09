@@ -54,7 +54,7 @@ const TValue = styled.Text`
     padding: 5px;
 `
 
-export default ({data, onRefresh}) => {
+export default ({data, onRefresh, onUpdateTransaction}) => {
     
     function dateFomatter(date) {
 
@@ -85,8 +85,8 @@ export default ({data, onRefresh}) => {
         }
     }
 
-    function onUpdate(id) {
-
+    function onUpdate(obj) {
+        onUpdateTransaction(obj)
     }
 
     return(
@@ -100,7 +100,7 @@ export default ({data, onRefresh}) => {
                     <DeleteArea  onPress={() => onDelete(data.id_transaction)}>
                         <DeleteIcon width="20" height="20" fill="#565353"/>
                     </DeleteArea>
-                    <EditArea  onPress={() => onUpdate(data.id_transaction)}>
+                    <EditArea  onPress={() => onUpdate(data)}>
                         <EditIcon width="20" height="20" fill="#565353"/>
                     </EditArea>
                 </ActionArea>

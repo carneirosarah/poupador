@@ -14,6 +14,7 @@ import {Image, RefreshControl} from 'react-native'
 import Api from '../../Api'
 import AsyncStorage from '@react-native-community/async-storage'
 import jwt from "jwt-decode"
+import TransactionModal from '../../components/TransactionModal'
 
 
 export default () => {
@@ -25,6 +26,8 @@ export default () => {
     const [balance, setBalance] = useState('')
     const [spent, setSpent] = useState('')
     const [refreshing, setRefreshing] = useState(false)
+    const [showModal, setShowModal] = useState(false)
+    const [transaction, setTransaction] = useState({})
 
     useEffect (() => {
         getTransactions()
@@ -101,6 +104,10 @@ export default () => {
         getTransactions()
     }
 
+    function onUpdateTransaction(obj) {
+        setTransaction(obj)
+        setShowModal(true)
+    }
     return (
         <Container>
                 <Header>
@@ -122,11 +129,17 @@ export default () => {
                 <ListArea>
                     {
                         transactions.map( (transaction, k) => (
-                            <TransactionItem key={k} data={transaction} onRefresh={onRefresh}/>
+                            <TransactionItem key={k} data={transaction} onRefresh={onRefresh} onUpdateTransaction={onUpdateTransaction}
+                            />
                         ))
                     }
                 </ListArea>
             </Scroller>
+            <TransactionModal 
+                show = {showModal}
+                setShow = {setShowModal}
+                transaction = {transaction}
+            />
         </Container>
     )
 }

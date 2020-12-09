@@ -38,9 +38,7 @@ export default () => {
     })
 
     const onChangeType = (newType) => {
-        console.log(newType)
         setType(newType)
-        console.log(type)
     }
 
     const onNewTransaction = async () => {
