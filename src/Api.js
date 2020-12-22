@@ -137,6 +137,110 @@ export default {
         return await req.json()
     },
 
+    getTransactions: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getTotalReceived: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/R/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getTotalSpent: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/D/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getBalance: async (id_user) => {
+
+        const req = await fetch(`${API}/transaction/balance/` + id_user, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+    
+    getTransactionsByPeriod: async (id_user, date_begin, date_finish) => {
+
+        const req = await fetch(`${API}/transaction/` + id_user + `/` + date_begin + `/` + date_finish, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getTotalReceivedByPeriod: async (id_user, date_begin, date_finish) => {
+
+        const req = await fetch(`${API}/transaction/R/` + id_user + `/` + date_begin + `/` + date_finish, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getTotalSpentByPeriod: async (id_user, date_begin, date_finish) => {
+
+        const req = await fetch(`${API}/transaction/D/` + id_user + `/` + date_begin + `/` + date_finish, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
+    getBalanceByPeriod: async (id_user, date_begin, date_finish) => {
+
+        const req = await fetch(`${API}/transaction/balance/` + id_user + `/` + date_begin + `/` + date_finish, {
+            method: 'GET',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            }
+        })
+
+        return await req.json()
+    },
+
     updateTransaction: async (id_transaction, type, date, category, description, value) => {
         
         const req = await fetch(`${API}/transaction/update`, {

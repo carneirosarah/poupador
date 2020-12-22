@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styled from 'styled-components/native'
 import ExpandIcon from '../assets/expand'
 import Api from '../Api'
@@ -61,14 +61,13 @@ export const ActionButtonText = styled.Text`
     color: #565353;
 `
 
-export default ({ show, setShow, transaction}) => {
-    console.log('S', transaction.category_transaction, typeof transaction.category_transaction)
-
-    const [categoria, setCategoriaField] = useState(transaction.category_transaction)
-    const [val, setValField] = useState(transaction.value_transaction)
-    const [desc, setDescField] = useState(transaction.description_transaction)
-    const [type, setType] = useState(transaction.type_transaction)
-    const [date, setDate] = useState(transaction.date_transaction)
+export default ({ show, setShow, transaction, onRefresh}) => {
+    
+    const [categoria, setCategoriaField] = useState('')
+    const [val, setValField] = useState('')
+    const [desc, setDescField] = useState('')
+    const [type, setType] = useState('')
+    const [date, setDate] = useState('')
 
     const handleCloseButton = () => {
         setShow(false)
@@ -76,8 +75,39 @@ export default ({ show, setShow, transaction}) => {
     const onChangeType = (newType) => {
         setType(newType)
     }
-    const onUpdate = () => {
+    const onUpdate = async () => {
 
+        try {
+
+            if (categoria.length && type.length && date.length && parseFloat(val)) {
+
+                let response = await Api.updateTransaction(transaction.id_transaction, type, date, categoria, desc, parseFloat(val))
+                
+                if (response.status === 200) {
+
+                    alert('Transação atualizada com sucesso!!')
+                    onRefresh()
+                } else {
+
+                    alert('Não foi atualizar incluir a transação')
+                }
+            } else {
+                
+                alert('Para prosseguir insira uma categoria, um tipo, uma data e um valor valido')
+            }
+        } catch(erro) {
+
+            alert('Não foi possível incluir a transação')
+            console.log(erro)
+
+        } finally {
+
+            setCategoriaField('')
+            setValField('')
+            setDescField('')
+            setType('')
+            setDate('')
+        }
     }
 
     return (

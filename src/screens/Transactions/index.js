@@ -35,7 +35,7 @@ export default () => {
             })
         }
         getUser()
-    })
+    }, [])
 
     const onChangeType = (newType) => {
         setType(newType)
