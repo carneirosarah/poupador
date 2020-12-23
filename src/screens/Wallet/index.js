@@ -56,7 +56,9 @@ export default () => {
         const now = new Date();
         setSelectedYear(now.getFullYear())
         setSelectedMonth(now.getMonth())
-        getTransactionsPerDate()
+
+        const dates = setDates(now.getMonth(), now.getFullYear())
+        getTransactionsPerDate(dates[0], dates[1])
     }, [])
 
     const getUser = async () => {
@@ -89,8 +91,10 @@ export default () => {
         let res = await Api.getTransactions(id)
 
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
+
             console.log(res)
             setTransactions(res.transactions)
         }
@@ -98,28 +102,54 @@ export default () => {
         res = await Api.getTotalSpent(id)
         
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
             console.log(res)
-            setSpent(res.transaction[0].valor_total_gasto)
+
+            if (res.transaction.length) {
+
+                setSpent(res.transaction[0].valor_total_gasto)
+            } else {
+
+                setSpent(0)
+            }
         }
 
         res = await Api.getBalance(id)
         
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
+
             console.log(res)
-            setBalance(res.transaction[0].saldo)
+
+            if (res.transaction.length) {
+                
+                setBalance(res.transaction[0].saldo)
+            } else {
+
+                setBalance(0)
+            }
         }
 
         res = await Api.getTotalReceived(id)
         
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
+
             console.log(res)
-            setReceived(res.transaction[0].valor_total_recebido)
+
+            if (res.transaction.length) {
+
+                setReceived(res.transaction[0].valor_total_recebido)
+            } else {
+
+                setReceived(0)
+            }
         }
 
         setLoading(false)
@@ -142,8 +172,10 @@ export default () => {
         let res = await Api.getTransactionsByPeriod(id, date_begin, date_finish)
 
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
+
             console.log(res)
             setTransactions(res.transactions)
         }
@@ -151,19 +183,37 @@ export default () => {
         res = await Api.getTotalSpentByPeriod(id, date_begin, date_finish)
         
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
+
             console.log(res)
-            setSpent(res.transaction[0].valor_total_gasto)
+
+            if (res.transaction.length) {
+
+                setSpent(res.transaction[0].valor_total_gasto)
+            } else {
+
+                setSpent(0)
+            }
         }
 
         res = await Api.getBalanceByPeriod(id, date_begin, date_finish)
         
         if (res.error) {
+
             alert("Erro: " + res.error)
         } else {
+
             console.log(res)
-            setBalance(res.transaction[0].saldo)
+
+            if (res.transaction.length) {
+
+                setBalance(res.transaction[0].saldo)
+            } else {
+
+                setBalance(0)
+            }
         }
 
         res = await Api.getTotalReceivedByPeriod(id, date_begin, date_finish)
@@ -172,10 +222,42 @@ export default () => {
             alert("Erro: " + res.error)
         } else {
             console.log(res)
-            setReceived(res.transaction[0].valor_total_recebido)
+
+            if (res.transaction.length) {
+
+                setReceived(res.transaction[0].valor_total_recebido)
+            } else {
+
+                setReceived(0)
+            }
         }
 
         setLoading(false)
+    }
+
+    const setDates = (mounth, year) => {
+
+        const date_begin = year + '-' + lpad(mounth + 1, '0', 2) + '-' + '01'
+        let date_finish
+
+        if ( mounth + 1 == 1 || mounth + 1 == 3 || mounth + 1 == 5 || mounth + 1 == 7 || mounth + 1 == 8 || mounth + 1 == 10 || mounth + 1 == 12) {
+            
+            date_finish = year + '-' + lpad(mounth + 1, '0', 2) + '-' + '31'
+
+        } else if (mounth + 1 === 2 && (year % 400 === 0 || (year % 4 === 0 && year % 100 !== 0))) {
+
+            date_finish = year + '-' + lpad(mounth + 1, '0', 2) + '-' + '29'
+
+        } else if (mounth + 1 === 2) {
+
+            date_finish = year + '-' + lpad(mounth + 1, '0', 2) + '-' + '28'
+
+        } else {
+
+            date_finish = year + '-' + lpad(mounth + 1, '0', 2) + '-' + '30'
+        }
+
+        return [date_begin, date_finish]
     }
 
     const onRefresh = () => {
@@ -186,6 +268,41 @@ export default () => {
     function onUpdateTransaction(obj) {
         setTransaction(obj)
         setShowModal(true)
+    }
+
+    const onPrevDateClick = () => {
+        
+        let aux = new Date(selectedYear, selectedMonth, 1)
+        aux.setMonth(aux.getMonth() - 1)
+        
+        setSelectedYear(aux.getFullYear())
+        setSelectedMonth(aux.getMonth())
+
+        const dates = setDates(aux.getMonth(), aux.getFullYear())
+        getTransactionsPerDate(dates[0], dates[1])
+    }
+
+    const onNextDateClick = () => {
+
+        let aux = new Date(selectedYear, selectedMonth, 1)
+        aux.setMonth(aux.getMonth() + 1)
+        
+        setSelectedYear(aux.getFullYear())
+        setSelectedMonth(aux.getMonth())
+
+        const dates = setDates(aux.getMonth(), aux.getFullYear())
+        getTransactionsPerDate(dates[0], dates[1])
+    }
+
+    function lpad(str, padString, length) {
+
+        if (typeof str !== 'string') {
+            str = String(str)
+        }
+
+        while(str.length < length) {str = padString + str}
+
+        return str
     }
     return (
         <Container>
@@ -201,13 +318,13 @@ export default () => {
             </Header>
             {!loading &&
                 <DateSelector>
-                    <DatePrevArea>
+                    <DatePrevArea onPress={onPrevDateClick}>
                         <NavPrevIcon width="35" heigth="35" fill="#000000"/>
                     </DatePrevArea>
                     <DateTitleArea>
-                        <DateTitle>{selectedYear}</DateTitle>
+                        <DateTitle>{months[selectedMonth]} {selectedYear}</DateTitle>
                     </DateTitleArea>
-                    <DateNextArea>
+                    <DateNextArea onPress={onNextDateClick}>
                         <NavNextIcon width="35" heigth="35" fill="#000000"/>
                     </DateNextArea>
                 </DateSelector>

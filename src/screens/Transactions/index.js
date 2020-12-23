@@ -86,8 +86,6 @@ export default () => {
                     style={{width: 200, color: '#565353'}}
                     date={date}
                     format="YYYY-MM-DD"
-                    minDate="2020-01-01"
-                    maxDate="2020-12-31"
                     onDateChange={d => setDate(d)}
                     customStyles={{
                         dateInput: {
