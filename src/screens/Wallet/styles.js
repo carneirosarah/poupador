@@ -36,7 +36,7 @@ export const HeaderReceived = styled.Text`
 export const HeaderBalance = styled.Text`
     font-size: 28px;
     font-weight: bold;
-    color: #565353;
+    color: #000000;
     padding: 5px;
 `
 

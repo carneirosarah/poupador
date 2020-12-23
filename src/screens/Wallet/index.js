@@ -22,6 +22,7 @@ import jwt from "jwt-decode"
 import TransactionModal from '../../components/TransactionModal'
 import NavPrevIcon from '../../assets/navigate_before.svg'
 import NavNextIcon from '../../assets/navigate_next.svg'
+import SeeAll from '../../components/WalletSeeAll'
 
 const months = [
     'Janeiro',
@@ -51,15 +52,24 @@ export default () => {
     const [transaction, setTransaction] = useState({})
     const [selectedYear, setSelectedYear] = useState(0)
     const [selectedMonth, setSelectedMonth] = useState(0)
+    const [seeAll, setSeeAll] = useState(false)
 
     useEffect (() => {
-        const now = new Date();
-        setSelectedYear(now.getFullYear())
-        setSelectedMonth(now.getMonth())
+        
+        if (seeAll) {
 
-        const dates = setDates(now.getMonth(), now.getFullYear())
-        getTransactionsPerDate(dates[0], dates[1])
-    }, [])
+            getTransactions()
+        
+        } else {
+
+            const now = new Date();
+            setSelectedYear(now.getFullYear())
+            setSelectedMonth(now.getMonth())
+
+            const dates = setDates(now.getMonth(), now.getFullYear())
+            getTransactionsPerDate(dates[0], dates[1])
+        }
+    }, [seeAll])
 
     const getUser = async () => {
         let token = await AsyncStorage.getItem('token')
@@ -294,6 +304,10 @@ export default () => {
         getTransactionsPerDate(dates[0], dates[1])
     }
 
+    const onClickSeeAll = (state) => {
+        setSeeAll(state)
+    }
+
     function lpad(str, padString, length) {
 
         if (typeof str !== 'string') {
@@ -316,7 +330,8 @@ export default () => {
                     </HeaderTitle>
                 }
             </Header>
-            {!loading &&
+
+            {!loading && !seeAll &&
                 <DateSelector>
                     <DatePrevArea onPress={onPrevDateClick}>
                         <NavPrevIcon width="35" heigth="35" fill="#000000"/>
@@ -329,9 +344,15 @@ export default () => {
                     </DateNextArea>
                 </DateSelector>
             }
+
+            {!loading && 
+                <SeeAll onClickSeeAll={onClickSeeAll} seeAll={seeAll} />
+            }
+
             {loading &&
                 <LoadingIcon size="large" color="#565353" />
             }
+
             <Scroller refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>
             }>
